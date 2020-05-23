@@ -1,18 +1,29 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React,
+{
+	lazy,
+	Suspense,
+} from 'react';
 
-import Home from './pages/home';
-import NavBar from './components/navBar'
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+} from 'react-router-dom';
+import Loading from '@pages/Loading';
 
-const App = () => {
-  return (
-    <div>
-      <NavBar />
-      <Switch>
-        <Route exact path='/' component={Home} />
-      </Switch>
-    </div>
-  );
-}
+
+// pages components
+const Ejemplo = lazy(() => import('@pages/Ejemplo'));
+
+
+const App = () => (
+	<Router>
+		<Suspense fallback={<Loading />}>
+			<Switch>
+				<Route exact path='/' component={Ejemplo} />
+			</Switch>
+		</Suspense>
+	</Router>
+);
 
 export default App;
