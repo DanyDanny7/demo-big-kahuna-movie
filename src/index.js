@@ -5,9 +5,10 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import store from '@store';
 import moment from 'moment';
-import App from './App';
 import 'moment/locale/es';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 moment.locale('es');
