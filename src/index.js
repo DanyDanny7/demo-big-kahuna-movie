@@ -1,11 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import store from '@store';
+import moment from 'moment';
 import App from './App';
+import 'moment/locale/es';
+
 import * as serviceWorker from './serviceWorker';
 
+moment.locale('es');
+
 ReactDOM.render(
-	<App />,
+	<Provider store={store}>
+		<Router>
+			<App />
+		</Router>
+	</Provider>,
 	document.getElementById('root'),
 );
 

@@ -1,9 +1,10 @@
 module.exports = {
-	'@root'      : './src',
+	'@root': './src',
 	'@components': './src/components',
-	'@config'    : './src/config/',
-	'@helpers'   : './src/helpers/',
-	'@hooks'     : './src/hooks',
-	'@layout'    : './src/layout',
-	'@pages'     : './src/pages',
+	'@config': './src/config/',
+	'@helpers': './src/helpers/',
+	'@hooks': './src/hooks',
+	'@layout': './src/layout',
+	'@pages': './src/pages',
+	'@store': './src/store/',
 };
