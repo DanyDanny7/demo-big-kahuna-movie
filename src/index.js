@@ -5,9 +5,11 @@ import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux';
 import moment from 'moment';
 import es_ES from 'antd/es/locale-provider/es_ES';
-import 'moment/locale/es';
 
+import 'moment/locale/es';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
