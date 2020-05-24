@@ -1,12 +1,10 @@
 
 import { combineReducers } from 'redux';
 
-// import postsReducer from './posts'   modelo para importar el primer reducer
-
+import moviesReducer from './moviesReducer';
 
 const rootReducer = combineReducers({
-	// postsReducer, aca colocamos el reducer importado
-
+	moviesReducer,
 });
 
 export default rootReducer;

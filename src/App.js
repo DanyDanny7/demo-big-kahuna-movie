@@ -8,7 +8,7 @@ import {
 	Switch,
 	Route,
 } from 'react-router-dom';
-import { Loading } from '@pages/Loading';
+import { Loading } from '@components/Loading';
 import NavBar from '@components/navBar/NavBar';
 
 // pages components

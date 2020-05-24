@@ -3,53 +3,58 @@ import React, { useEffect, useState } from 'react';
 import {
 	CardDeck, Row, InputGroup, FormControl,
 } from 'react-bootstrap';
-import axios from 'axios';
 import styled from 'styled-components';
 import { Radio } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { getMovie } from '@store/actions/moviesActions';
 import Layout from '@layout/Layout';
 import CartdData from '@components/cartd/CartdData';
+import { LoadingSmall } from '@components/Loading';
 
 const Catalog = () => {
+	const dispatch = useDispatch();
 	const [miData, setMiData] = useState([]);
 	const [filter, setFilter] = useState('title');
 
-	const getData = async (filt, title) => {
-		const path = 'https://api.themoviedb.org/3/movie/top_rated?api_key=510e5395ceb2e557cf3fb72141932029&language=es-ES&page=1';
-		const popular = 'http://api.themoviedb.org/3/discover/movie?api_key=510e5395ceb2e557cf3fb72141932029&language=es-ES&sort_by=popularity.desc&page=1';
-		const titulo = 'http://api.themoviedb.org/3/discover/movie?api_key=510e5395ceb2e557cf3fb72141932029&language=es-ES&sort_by=original_title.asc&page=1';
-		const byTitle = `https://api.themoviedb.org/3/search/movie?api_key=510e5395ceb2e557cf3fb72141932029&language=es-ES&query=${title}&page=1`;
+	const movie = useSelector((state) => state.moviesReducer.getMovie);
 
-		switch (filt) {
-		case 'popularity': {
-			const data = await axios.get(popular);
-			/*
-				sord adicional porque los ordena por popularidad (verificar path) sin embargo,
-				por temas de caché del servidor no se actualizan tan frecuentemente
-			*/
-			const order = data.data?.results.sort((a, b) => b.popularity - a.popularity);
-			setMiData(order || []);
-		} break;
-		case 'byTitle': {
-			const data = await axios.get(byTitle);
-			setMiData(data.data?.results || []);
-		}
-			break;
-		default: {
-			const data = await axios.get(titulo);
-			setMiData(data.data?.results || []);
-		}
-			break;
-		}
-	};
+	const {
+		dataByPriority,
+		dataByTitle,
+		dataSearchByTitle,
+		isLoading,
+	} = movie;
 
 	useEffect(() => {
-		getData();
+		switch (filter) {
+		case 'popularity': setMiData(dataByPriority); break;
+		case 'byTitle': setMiData(dataSearchByTitle); break;
+		default: setMiData(dataByTitle); break;
+		}
+	}, [movie]);
+
+	useEffect(() => {
+		setFilter('title');
+		dispatch(getMovie('title', 1));
 	}, []);
+
+	// useEffect(() => {
+	// 	window.onscroll = () => {
+	// 		const height = document.body.clientHeight;
+	// 		const current = window.pageYOffset + window.innerHeight;
+	// 		console.log('alto', height);
+	// 		console.log('actual', current);
+	// 		// if(current === height && !isError) {
+	// 		//     getComics(parameters);
+	// 		// }
+	// 	};
+	// }, [window]);
+	// console.log(document.body.clientHeight);
 
 	const onPress = (e) => {
 		setFilter(e.target.value);
-		getData(e.target.value);
+		dispatch(getMovie(e.target.value, 1));
 	};
 
 	const transform = (value) => {
@@ -61,14 +66,14 @@ const Catalog = () => {
 	};
 
 	const onChange = (e) => {
-		console.log('data', e.target.value.length);
 		if (e.target.value.length > 0) {
-			getData('byTitle', transform(e.target.value));
+			setFilter('byTitle');
+			dispatch(getMovie('byTitle', 1, transform(e.target.value)));
 		} else {
-			getData();
+			setFilter('title');
+			dispatch(getMovie('title', 1));
 		}
 	};
-
 
 	return (
 		<Layout title='Catálogo'>
@@ -93,11 +98,12 @@ const Catalog = () => {
 			<CardDeck>
 				<Row>
 					{
-						miData.map((movie) => (
-							<CartdData key={movie.id} movie={movie} />
+						miData.map((m) => (
+							<CartdData key={m.id} movie={m} />
 						))
 					}
 				</Row>
+				{isLoading && <LoadingSmall />}
 			</CardDeck>
 		</Layout>
 	);

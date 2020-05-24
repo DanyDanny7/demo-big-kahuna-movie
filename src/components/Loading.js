@@ -29,7 +29,8 @@ const WrapperSmall = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100%;
+	height: 300px;
+	width: 100%;
 `;
 
 export { Loading, LoadingSmall };
