@@ -1,17 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
+import { node, string } from 'prop-types';
 
-const About = ({ children, title }) => (
+const Layout = ({ children, title }) => (
 	<Wrapper>
 		<head>
 			<title>{title}</title>
 		</head>
-		{children}
+		<div className='contain'>
+			{children}
+		</div>
 	</Wrapper>
 );
 
+Layout.defaultProps = {
+	title: 'Big-Kahuna Movie',
+};
+
+Layout.propTypes = {
+	title: string,
+	children: node.isRequired,
+};
+
 const Wrapper = styled.div`
-	min-height: calc(100vh - 56px);
+	height: calc(100vh - 58px);
+	overflow: auto;
+	
+	.contain {
+		max-width: 1444px;
+		padding: 50px 0px;
+		margin: auto;
+	}
 `;
 
-export default About;
+export default Layout;

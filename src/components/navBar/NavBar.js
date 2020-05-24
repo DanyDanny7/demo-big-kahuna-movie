@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import {
+	Container,
 	Button,
 	Navbar,
 	Nav,
@@ -8,26 +10,53 @@ import {
 	FormControl,
 } from 'react-bootstrap';
 
-const NavBar = () => (
-	<div>
-		<Navbar collapseOnSelect expand='md' bg='dark' variant='dark'>
-			<Navbar.Brand href='#home'>Navbar</Navbar.Brand>
-			<Navbar.Toggle aria-controls='responsive-navbar-nav' />
-			<Navbar.Collapse id='responsive-navbar-nav'>
-				<Nav className='mr-auto'>
-					<Link className='nav-link' to='/'>Home</Link>
-					<Link className='nav-link' to='/catalogo'>Catálogo de películas</Link>
-					<Link className='nav-link' to='/carrito'>Carrito</Link>
-					<Link className='nav-link' to='/acercaDe'>Acerca de</Link>
-				</Nav>
-				<Form inline>
-					<FormControl type='text' placeholder='Search' className='mr-sm-2' />
-					<Button variant='outline-info'>Search</Button>
-				</Form>
+const NavBar = () => {
+	const [path, setPath] = useState('/');
 
-			</Navbar.Collapse>
-		</Navbar>
-	</div>
-);
+	useEffect(() => {
+		setPath(window.location.pathname);
+	}, [window.location.pathname]);
+
+	return (
+		<Wrapper>
+			<Container>
+				<Navbar classNam='contain' collapseOnSelect expand='sm' bg='dark' variant='dark'>
+					<Link className='navbar-brand' to='/' onClick={() => setPath('/')}>Navba</Link>
+					<Navbar.Toggle aria-controls='responsive-navbar-nav' />
+					<Navbar.Collapse id='responsive-navbar-nav'>
+						<Nav className='ml-auto'>
+							<Link
+								className={`nav-link ${path === '/catalogo' && 'active'}`}
+								to='/catalogo'
+								onClick={() => setPath('/catalogo')}
+							>
+								Catálogo de películas
+							</Link>
+							<Link
+								className={`nav-link ${path === '/carrito' && 'active'}`}
+								to='/carrito'
+								onClick={() => setPath('/carrito')}
+							>
+								Carrito
+							</Link>
+							<Link
+								className={`nav-link ${path === '/acercaDe' && 'active'}`}
+								to='/acercaDe'
+								onClick={() => setPath('/acercaDe')}
+							>
+								Acerca de
+							</Link>
+						</Nav>
+					</Navbar.Collapse>
+				</Navbar>
+			</Container>
+		</Wrapper>
+	);
+};
+
+const Wrapper = styled.div`
+	background-color: #343a40;
+	height: 58px;
+`;
 
 export default NavBar;

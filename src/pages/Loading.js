@@ -1,9 +1,35 @@
 import React from 'react';
+import { Spinner } from 'react-bootstrap';
+import styled from 'styled-components';
 
 const Loading = () => (
-	<div>
-		Cargando...
-	</div>
+	<Wrapper>
+		<Spinner animation='grow' />
+		<Spinner animation='grow' />
+		<Spinner animation='grow' />
+	</Wrapper>
 );
 
-export default Loading;
+const LoadingSmall = () => (
+	<WrapperSmall>
+		<Spinner animation='grow' />
+		<Spinner animation='grow' />
+		<Spinner animation='grow' />
+	</WrapperSmall>
+);
+
+const Wrapper = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: calc(100vh - 58px);
+`;
+
+const WrapperSmall = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+`;
+
+export { Loading, LoadingSmall };
