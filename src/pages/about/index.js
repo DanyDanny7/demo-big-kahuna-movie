@@ -7,7 +7,7 @@ import Layout from '@layout/Layout';
 
 const About = () => (
 	<Layout title='Acerca de'>
-		<Wrapper>
+		<Wrapper className='pr-2 pl-2'>
 			<h4>
 				Acerca de
 			</h4>

@@ -7,7 +7,7 @@ import Layout from '@layout/Layout';
 
 const Privacy = () => (
 	<Layout title='Privacidad'>
-		<Wrapper>
+		<Wrapper className='pr-2 pl-2'>
 			<h4>
 				Privacidad
 			</h4>

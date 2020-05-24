@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
@@ -9,11 +9,6 @@ import {
 
 const NavBar = () => {
 	const [path, setPath] = useState('/');
-
-
-	useEffect(() => {
-		setPath(window.location.pathname);
-	}, [window.location.pathname]);
 
 	return (
 		<Wrapper>
@@ -54,7 +49,7 @@ const NavBar = () => {
 
 const Wrapper = styled.div`
 	background-color: #343a40;
-	height: 58px;
+	min-height: 58px;
 `;
 
 export default NavBar;

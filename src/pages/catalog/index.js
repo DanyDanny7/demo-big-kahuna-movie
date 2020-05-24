@@ -35,17 +35,17 @@ const Catalog = () => {
 		case 'byTitle': setMiData(dataSearchByTitle); break;
 		default: setMiData(dataByTitle); break;
 		}
-	}, [movie]);
+	}, [dataByPriority, dataByTitle, dataSearchByTitle, filter]);
 
 
 	useEffect(() => {
 		setFilter('title');
 		dispatch(getMovie('title', pag));
-	}, []);
+	}, [dispatch, pag]);
 
 	useEffect(() => {
 		dispatch(getMovie(filter, pag, titleFilter));
-	}, [pag]);
+	}, [dispatch, pag, titleFilter, filter]);
 
 	const transform = (value) => {
 		let contenido = '';

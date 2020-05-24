@@ -11,7 +11,7 @@ import { number, string, shape } from 'prop-types';
 const CartdData = ({ movie }) => {
 	const [showMore, setShowMore] = useState(false);
 	const [error, setError] = useState(false);
-	const base = 'http://image.tmdb.org/t/p/w154';
+	const base = 'https://image.tmdb.org/t/p/w154';
 	const isDefault = 'https://www.apertura.com/__export/1508853721165/sites/revistaap/img/2017/10/24/pelxcula-cine-hollywood.jpg_1913337537.jpg';
 
 	const change = (show) => {
@@ -27,10 +27,9 @@ const CartdData = ({ movie }) => {
 					role='button'
 					tabIndex='0'
 				>
-					{/* <Card.Img variant='top' src={`${base}${movie.backdrop_path}`} /> */}
 					<Card.Img
 						variant='top'
-						src={error ? `${isDefault}` : `${base}${movie.backdrop_path}`}
+						src={error ? isDefault : `${base}${movie.backdrop_path}`}
 						onError={() => setError(true)}
 					/>
 					<Card.Body className='body'>

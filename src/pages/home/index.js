@@ -23,16 +23,16 @@ const Home = () => {
 
 	useEffect(() => {
 		setMiData(dataByPriority);
-	}, [movie]);
+	}, [dataByPriority]);
 
 	useEffect(() => {
 		dispatch(getMovie('popularity', 1));
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<Layout title='Big Kahuna Movie'>
 			<Wrapper>
-				<Row>
+				<Row className='pr-2 pl-2'>
 					<Col lg={11} md={11} sm={10} xs={9}>
 						<h1>
 							Lo más popular

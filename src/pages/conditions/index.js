@@ -7,7 +7,7 @@ import Layout from '@layout/Layout';
 
 const Conditions = () => (
 	<Layout title='Términos y Condiciones'>
-		<Wrapper>
+		<Wrapper className='pr-2 pl-2'>
 			<h4>
 				Términos y condiciones
 			</h4>
