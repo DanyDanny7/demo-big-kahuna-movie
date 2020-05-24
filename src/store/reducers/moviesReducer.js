@@ -13,6 +13,7 @@ const initState = {
 		isSuccessByPriority: false,
 		isSuccessSearchByTitle: false,
 		isError: false,
+		total: 1,
 		dataByTitle: [],
 		dataByPriority: [],
 		dataSearchByTitle: [],
@@ -43,7 +44,8 @@ const moviesReducer = (state = initState, action) => {
 				isSuccessByPriority: false,
 				isSuccessSearchByTitle: false,
 				isError: false,
-				dataByTitle: action.payload,
+				total: action.payload.total,
+				dataByTitle: action.payload.data,
 			},
 		};
 	case GET_MOVIE_BY_PRIORITY_SUCCESS:
@@ -56,7 +58,8 @@ const moviesReducer = (state = initState, action) => {
 				isSuccessByPriority: true,
 				isSuccessSearchByTitle: false,
 				isError: false,
-				dataByPriority: action.payload,
+				total: action.payload.total,
+				dataByPriority: action.payload.data,
 			},
 		};
 	case GET_MOVIE_SEARCH_BY_TITLE_SUCCESS:
@@ -69,7 +72,8 @@ const moviesReducer = (state = initState, action) => {
 				isSuccessByPriority: false,
 				isSuccessSearchByTitle: true,
 				isError: false,
-				dataSearchByTitle: action.payload,
+				total: action.payload.total,
+				dataSearchByTitle: action.payload.data,
 			},
 		};
 	case GET_MOVIE_FAILD:

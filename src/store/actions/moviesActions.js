@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import axios from 'axios';
 import {
 	priority,
@@ -45,17 +46,29 @@ export const getMovie = (filter, pag, t) => async (dispatch, getState) => {
                     por temas de caché del servidor no se actualizan tan frecuentemente
                 */
 				const order = data.data.results.sort((a, b) => b.popularity - a.popularity);
-				dispatch(getMovieByPrioritySuccess(order || []));
+				dispatch(getMovieByPrioritySuccess({
+					total: data.data?.total_results,
+					data: order || [],
+				}));
 			} break;
 			case 'byTitle': {
 				const data = await axios.get(byTitle(t, pag));
-
-				dispatch(getMovieSearchByTitleSuccess(data.data?.results || []));
+				console.log({
+					total: data.data?.total_results,
+					data: data.data?.results || [],
+				});
+				dispatch(getMovieSearchByTitleSuccess({
+					total: data.data?.total_results,
+					data: data.data?.results || [],
+				}));
 			}
 				break;
 			default: {
 				const data = await axios.get(title(pag));
-				dispatch(getMovieByTitleSuccess(data.data?.results || []));
+				dispatch(getMovieByTitleSuccess({
+					total: data.data?.total_results,
+					data: data.data?.results || [],
+				}));
 			}
 				break;
 			}

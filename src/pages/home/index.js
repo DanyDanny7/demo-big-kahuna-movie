@@ -1,37 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import { CardDeck, Row } from 'react-bootstrap';
-import axios from 'axios';
+import {
+	CardDeck, Row, Col, Button,
+} from 'react-bootstrap';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
+import { getMovie } from '@store/actions/moviesActions';
 import Layout from '@layout/Layout';
 import CartdData from '@components/cartd/CartdData';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoadingSmall } from '@components/Loading';
 
 const Home = () => {
+	const dispatch = useDispatch();
 	const [miData, setMiData] = useState([]);
 
-	const getData = async () => {
-		const path = 'https://api.themoviedb.org/3/movie/top_rated?api_key=510e5395ceb2e557cf3fb72141932029&language=es-ES&page=1';
-		const popular = 'http://api.themoviedb.org/3/discover/movie?api_key=510e5395ceb2e557cf3fb72141932029&sort_by=popularity.desc&language=es-ES&page=1';
-		const data = await axios.get(popular);
-		setMiData(data.data?.results || []);
-	};
+	const movie = useSelector((state) => state.moviesReducer.getMovie);
+	const {
+		dataByPriority,
+		isLoading,
+	} = movie;
 
 	useEffect(() => {
-		getData();
+		setMiData(dataByPriority);
+	}, [movie]);
+
+	useEffect(() => {
+		dispatch(getMovie('popularity', 1));
 	}, []);
 
 	return (
-		<Layout title='Catálogo'>
+		<Layout title='Big Kahuna Movie'>
 			<Wrapper>
 				<Row>
-					<CardDeck>
+					<Col lg={11} md={11} sm={10} xs={9}>
+						<h1>
+							Lo más popular
+						</h1>
+					</Col>
+					<Col lg={1} md={1} sm={2} xs={3} className='ml-auto'>
+						<Link to='/catalogo'>
+							<Button variant='dark'>
+								Ver todo
+							</Button>
+						</Link>
+					</Col>
+				</Row>
+				<CardDeck>
+					<Row>
 						{
-							miData.splice(0, 5).map((movie) => (
-								<CartdData key={movie.id} movie={movie} />
+							miData.splice(0, 5).map((m) => (
+								<CartdData key={m.id} movie={m} />
 							))
 						}
-					</CardDeck>
-				</Row>
+						{isLoading && <LoadingSmall />}
+					</Row>
+				</CardDeck>
 			</Wrapper>
 		</Layout>
 	);

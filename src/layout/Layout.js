@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { node, string } from 'prop-types';
 
+import Footer from '@components/Footer';
+
+
 const Layout = ({ children, title }) => (
 	<Wrapper>
 		<head>
@@ -10,6 +13,7 @@ const Layout = ({ children, title }) => (
 		<div className='contain'>
 			{children}
 		</div>
+		<Footer className='footer' />
 	</Wrapper>
 );
 
@@ -23,13 +27,17 @@ Layout.propTypes = {
 };
 
 const Wrapper = styled.div`
-	height: calc(100vh - 58px);
+	height: calc(100vh - 58px );
 	overflow: auto;
-	
 	.contain {
+		min-height: calc(100vh - (58px + 60px) );
 		max-width: 1444px;
 		padding: 50px 0px;
 		margin: auto;
+	}
+	.footer {
+		position: fixed;
+		bottom: 0px;
 	}
 `;
 

@@ -3,15 +3,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
 	Container,
-	Button,
 	Navbar,
 	Nav,
-	Form,
-	FormControl,
 } from 'react-bootstrap';
 
 const NavBar = () => {
 	const [path, setPath] = useState('/');
+
 
 	useEffect(() => {
 		setPath(window.location.pathname);
@@ -21,7 +19,7 @@ const NavBar = () => {
 		<Wrapper>
 			<Container>
 				<Navbar classNam='contain' collapseOnSelect expand='sm' bg='dark' variant='dark'>
-					<Link className='navbar-brand' to='/' onClick={() => setPath('/')}>Navba</Link>
+					<Link className='navbar-brand' to='/' onClick={() => setPath('/')}>Big Kahuna Movie</Link>
 					<Navbar.Toggle aria-controls='responsive-navbar-nav' />
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='ml-auto'>
@@ -40,9 +38,9 @@ const NavBar = () => {
 								Carrito
 							</Link>
 							<Link
-								className={`nav-link ${path === '/acercaDe' && 'active'}`}
-								to='/acercaDe'
-								onClick={() => setPath('/acercaDe')}
+								className={`nav-link ${path === '/acerca_de' && 'active'}`}
+								to='/acerca_de'
+								onClick={() => setPath('/acerca_de')}
 							>
 								Acerca de
 							</Link>

@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import {
-	CardDeck, Row, InputGroup, FormControl,
+	CardDeck, Row, Col, InputGroup, FormControl,
 } from 'react-bootstrap';
 import styled from 'styled-components';
-import { Radio } from 'antd';
+import { Radio, Pagination } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getMovie } from '@store/actions/moviesActions';
@@ -16,6 +16,8 @@ const Catalog = () => {
 	const dispatch = useDispatch();
 	const [miData, setMiData] = useState([]);
 	const [filter, setFilter] = useState('title');
+	const [titleFilter, setTitleFilter] = useState('');
+	const [pag, setPag] = useState(1);
 
 	const movie = useSelector((state) => state.moviesReducer.getMovie);
 
@@ -24,6 +26,7 @@ const Catalog = () => {
 		dataByTitle,
 		dataSearchByTitle,
 		isLoading,
+		total,
 	} = movie;
 
 	useEffect(() => {
@@ -34,28 +37,15 @@ const Catalog = () => {
 		}
 	}, [movie]);
 
+
 	useEffect(() => {
 		setFilter('title');
-		dispatch(getMovie('title', 1));
+		dispatch(getMovie('title', pag));
 	}, []);
 
-	// useEffect(() => {
-	// 	window.onscroll = () => {
-	// 		const height = document.body.clientHeight;
-	// 		const current = window.pageYOffset + window.innerHeight;
-	// 		console.log('alto', height);
-	// 		console.log('actual', current);
-	// 		// if(current === height && !isError) {
-	// 		//     getComics(parameters);
-	// 		// }
-	// 	};
-	// }, [window]);
-	// console.log(document.body.clientHeight);
-
-	const onPress = (e) => {
-		setFilter(e.target.value);
-		dispatch(getMovie(e.target.value, 1));
-	};
+	useEffect(() => {
+		dispatch(getMovie(filter, pag, titleFilter));
+	}, [pag]);
 
 	const transform = (value) => {
 		let contenido = '';
@@ -65,38 +55,66 @@ const Catalog = () => {
 		return contenido;
 	};
 
+	const onPress = (e) => {
+		setTitleFilter('');
+		setFilter(e.target.value);
+		dispatch(getMovie(e.target.value, pag));
+	};
+
 	const onChange = (e) => {
 		if (e.target.value.length > 0) {
 			setFilter('byTitle');
+			setTitleFilter(transform(e.target.value));
+			setPag(1);
 			dispatch(getMovie('byTitle', 1, transform(e.target.value)));
 		} else {
 			setFilter('title');
-			dispatch(getMovie('title', 1));
+			dispatch(getMovie('title', pag));
 		}
+	};
+
+	const changePag = (pageNumber) => {
+		setPag(pageNumber);
 	};
 
 	return (
 		<Layout title='Catálogo'>
 			<Switch>
-				<div className='input'>
-					<InputGroup size='sm' className='mb-3'>
-						<InputGroup.Prepend>
-							<InputGroup.Text id='inputGroup-sizing-sm'>Buscar por título</InputGroup.Text>
-						</InputGroup.Prepend>
-						<FormControl
-							aria-label='Small'
-							aria-describedby='inputGroup-sizing-sm'
-							onChange={onChange}
+				<Row className='pr-2 pl-2'>
+					<Col lg={4} md={12} sm={12} xs={12} className='item'>
+						<div className='input'>
+							<InputGroup size='sm'>
+								<InputGroup.Prepend>
+									<InputGroup.Text id='inputGroup-sizing-sm'>Buscar por título</InputGroup.Text>
+								</InputGroup.Prepend>
+								<FormControl
+									aria-label='Small'
+									aria-describedby='inputGroup-sizing-sm'
+									onChange={onChange}
+								/>
+							</InputGroup>
+						</div>
+					</Col>
+					<Col lg={6} md={12} sm={12} xs={12} className='item'>
+						<Pagination
+							showQuickJumper
+							defaultCurrent={1}
+							total={total}
+							showSizeChanger={false}
+							onChange={changePag}
+							pageSize={20} // leí la docu y el foro, y me topé con que la api está limitada a 20 resultados, por eso el parametro no es dinamico
 						/>
-					</InputGroup>
-				</div>
-				<Radio.Group defaultValue={filter} buttonStyle='solid' onChange={onPress}>
-					<Radio.Button value='title'>Título</Radio.Button>
-					<Radio.Button value='popularity'>Popularidad</Radio.Button>
-				</Radio.Group>
+					</Col>
+					<Col lg={2} md={12} sm={12} xs={12} className='item'>
+						<Radio.Group defaultValue={filter} buttonStyle='solid' onChange={onPress}>
+							<Radio.Button value='title'>Título</Radio.Button>
+							<Radio.Button value='popularity'>Popularidad</Radio.Button>
+						</Radio.Group>
+					</Col>
+				</Row>
 			</Switch>
 			<CardDeck>
-				<Row>
+				<Row className='pr-2 pl-2'>
 					{
 						miData.map((m) => (
 							<CartdData key={m.id} movie={m} />
@@ -110,15 +128,16 @@ const Catalog = () => {
 };
 
 const Switch = styled.div`
-	display: flex;
-    justify-content: flex-end;
-    justify-items: center;
-	height: 50px;
+	min-height: 50px;
 	
-
+	.item {
+		height: 50px;
+		display: flex;
+		justify-content: center;
+		white-space: nowrap;
+	}
 	.input {
-		margin-right: auto;
-		width: 30%;
+		width: 70%;
 		max-width: 600px;
 		min-width: 300px;
 		&-group-text {
