@@ -80,7 +80,7 @@ const Catalog = () => {
 	return (
 		<Layout title='Catálogo'>
 			<Switch>
-				<Row className='pr-2 pl-2'>
+				<Row className='pr-2 pl-2 '>
 					<Col lg={4} md={12} sm={12} xs={12} className='item'>
 						<div className='input'>
 							<InputGroup size='sm'>
@@ -114,7 +114,7 @@ const Catalog = () => {
 				</Row>
 			</Switch>
 			<CardDeck>
-				<Row className='pr-2 pl-2'>
+				<Row className='pr-2 pl-2 '>
 					{
 						miData.map((m) => (
 							<CartdData key={m.id} movie={m} />
@@ -129,8 +129,10 @@ const Catalog = () => {
 
 const Switch = styled.div`
 	min-height: 50px;
+	margin: 0px;
 	
 	.item {
+		margin: 0px;
 		height: 50px;
 		display: flex;
 		justify-content: center;

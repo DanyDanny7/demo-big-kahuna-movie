@@ -4,6 +4,10 @@ import {
 	GET_MOVIE_BY_PRIORITY_SUCCESS,
 	GET_MOVIE_SEARCH_BY_TITLE_SUCCESS,
 	GET_MOVIE_FAILD,
+
+	GET_MOVIE_LOCAL_LOADING,
+	GET_MOVIE_LOCAL_SUCCESS,
+	GET_MOVIE_LOCAL_FAILD,
 } from '@store/actions/moviesActions';
 
 const initState = {
@@ -17,6 +21,12 @@ const initState = {
 		dataByTitle: [],
 		dataByPriority: [],
 		dataSearchByTitle: [],
+	},
+	getLocalMovie: {
+		isSuccess: false,
+		isLoading: false,
+		isError: false,
+		data: [],
 	},
 };
 
@@ -86,6 +96,37 @@ const moviesReducer = (state = initState, action) => {
 				isSuccessByPriority: false,
 				isSuccessSearchByTitle: false,
 				isError: true,
+			},
+		};
+
+	case GET_MOVIE_LOCAL_LOADING:
+		return {
+			...state,
+			getLocalMovie: {
+				...state.getLocalMovie,
+				isSuccess: false,
+				isLoading: true,
+				isError: false,
+			},
+		};
+	case GET_MOVIE_LOCAL_SUCCESS:
+		return {
+			...state,
+			getLocalMovie: {
+				isLoading: false,
+				isSuccess: true,
+				isError: false,
+				data: action.payload,
+			},
+		};
+	case GET_MOVIE_LOCAL_FAILD:
+		return {
+			...state,
+			getLocalMovie: {
+				isSuccess: false,
+				isLoading: false,
+				isError: true,
+				data: [],
 			},
 		};
 	default: return state;
