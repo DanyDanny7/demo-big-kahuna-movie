@@ -5,19 +5,19 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import { Slider, Radio } from 'antd';
 import { Row } from 'react-bootstrap';
 import {
-	number, string, shape, any, arrayOf, func,
+	number, string, shape, any, arrayOf,
 } from 'prop-types';
 import { useDispatch } from 'react-redux';
 
 import { getActionLocal } from '@store/actions/moviesActions';
 import CartdData from '@components/cartd/CartdData';
 
-const Item = ({ movie, deleteItem }) => {
+const Item = ({ movie }) => {
 	const dispatch = useDispatch();
 	const [stock, setStock] = useState(0);
 	const [cuantity, setCuantity] = useState(1);
 	const [price, setPrice] = useState(1);
-	const [action, setAction] = useState(1);
+	const [action, setAction] = useState('buy');
 
 	useEffect(() => {
 		setStock(movie.stock > 5 ? 5 : movie.stock);
@@ -29,21 +29,27 @@ const Item = ({ movie, deleteItem }) => {
 		}
 	}, [movie.stock, movie.cuantity, movie.action, movie.salePrice, movie.rentPrice]);
 
-	useEffect(() => {
+	const updateShopping = (c, a) => {
 		dispatch(getActionLocal({
 			...movie,
-			cuantity,
-			action,
+			cuantity: c,
+			action: a,
 		}, 'update'));
-	}, [cuantity, action, JSON.stringify(movie)]);
+	};
+
+	const deleteShopping = (m) => {
+		dispatch(getActionLocal(m, 'delete'));
+	};
 
 	const onChangeCuantity = (e) => {
 		setCuantity(e);
+		updateShopping(e, action);
 	};
 
 	const onChangeAction = (e) => {
 		setPrice(e.target.value === 'rent' ? movie.rentPrice : movie.salePrice);
 		setAction(e.target.value);
+		updateShopping(cuantity, e.target.value);
 	};
 
 	const calcTotal = (p, c) => {
@@ -61,8 +67,8 @@ const Item = ({ movie, deleteItem }) => {
 				<div className='close'>
 					<div
 						className='closeX'
-						onClick={() => deleteItem(movie)}
-						onKeyPress={() => deleteItem(movie)}
+						onClick={() => deleteShopping(movie)}
+						onKeyPress={() => deleteShopping(movie)}
 						role='button'
 						tabIndex='0'
 					>
@@ -89,26 +95,13 @@ const Item = ({ movie, deleteItem }) => {
 	);
 };
 
-const Form = ({ shoppingList }) => {
-	const dispatch = useDispatch();
-	const [listMovies, setList] = useState([]);
-
-	useEffect(() => {
-		setList(shoppingList);
-	}, [shoppingList]);
-
-	const deleteShopping = (movie) => {
-		dispatch(getActionLocal(movie, 'delete'));
-	};
-
-	return (
-		<Wrapper>
-			{listMovies.map((m) => (
-				<Item key={m.id} movie={m} deleteItem={deleteShopping} />
-			))}
-		</Wrapper>
-	);
-};
+const Form = ({ shoppingList }) => (
+	<Wrapper>
+		{shoppingList.map((m) => (
+			<Item key={m.id} movie={m} />
+		))}
+	</Wrapper>
+);
 
 const shoppingListTypes = {
 	id: number,
@@ -133,7 +126,6 @@ Form.defaultProps = {
 
 Item.propTypes = {
 	movie: shape(shoppingListTypes),
-	deleteItem: func.isRequired,
 };
 Form.propTypes = {
 	shoppingList: arrayOf(shape(shoppingListTypes)),

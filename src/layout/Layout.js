@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 	height: calc(100vh - 58px );
 	overflow: auto;
 	.contain {
-		min-height: calc(100vh - (58px + 60px) );
+		min-height: calc(100vh - (58px + 70px) );
 		max-width: 1444px;
 		width: 100%;
 		padding: 50px 0px;

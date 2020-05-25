@@ -35,7 +35,7 @@ const Catalog = () => {
 		case 'byTitle': setMiData(dataSearchByTitle); break;
 		default: setMiData(dataByTitle); break;
 		}
-	}, [dataByPriority, dataByTitle, dataSearchByTitle, filter]);
+	}, [JSON.stringify(dataByPriority), JSON.stringify(dataByTitle), JSON.stringify(dataSearchByTitle), filter]);
 
 
 	useEffect(() => {

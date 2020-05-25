@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
+import { message } from 'antd';
 import {
 	priority,
 	byTitle,
@@ -110,6 +111,7 @@ export const getActionLocal = (movie, action) => async (dispatch, getState) => {
 						data.push(movie);
 					}
 					localStorage.setItem('shoppingCart', JSON.stringify(data));
+					message.success('Agregado al carrito');
 				}
 				break;
 			case 'update':
@@ -126,6 +128,7 @@ export const getActionLocal = (movie, action) => async (dispatch, getState) => {
 					const index = data.findIndex(isLargeNumber);
 					data.splice(index, 1);
 					localStorage.setItem('shoppingCart', JSON.stringify(data));
+					message.success('Eliminado del carrito');
 				}
 				break;
 

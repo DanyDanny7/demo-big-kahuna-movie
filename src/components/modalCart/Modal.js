@@ -22,7 +22,7 @@ const Darwer = ({ visible, changeShow }) => {
 
 	useEffect(() => {
 		setShoppingList(data);
-	}, [isSuccess, data]);
+	}, [isSuccess, JSON.stringify(data)]);
 
 	let total = 0;
 	for (const movie of shoppingList) {

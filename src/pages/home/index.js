@@ -23,7 +23,7 @@ const Home = () => {
 
 	useEffect(() => {
 		setMiData(dataByPriority);
-	}, [dataByPriority]);
+	}, [JSON.stringify(dataByPriority)]);
 
 	useEffect(() => {
 		dispatch(getMovie('popularity', 1));
