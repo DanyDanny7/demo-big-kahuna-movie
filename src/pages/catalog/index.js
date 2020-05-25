@@ -41,11 +41,11 @@ const Catalog = () => {
 	useEffect(() => {
 		setFilter('title');
 		dispatch(getMovie('title', pag));
-	}, [dispatch, pag]);
+	}, []);
 
 	useEffect(() => {
 		dispatch(getMovie(filter, pag, titleFilter));
-	}, [dispatch, pag, titleFilter, filter]);
+	}, [pag, titleFilter, filter]);
 
 	const transform = (value) => {
 		let contenido = '';
