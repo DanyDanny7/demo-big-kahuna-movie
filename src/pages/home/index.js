@@ -49,7 +49,7 @@ const Home = () => {
 				<CardDeck>
 					<Row>
 						{
-							miData.splice(0, 5).map((m) => (
+							miData.slice(0, 5).map((m) => (
 								<CartdData key={m.id} movie={m} />
 							))
 						}

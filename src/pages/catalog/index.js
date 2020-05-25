@@ -115,8 +115,12 @@ const Catalog = () => {
 			</Switch>
 			<CardDeck>
 				<Row className='pr-2 pl-2 '>
+					{/*
+						se implementó un slice, para cumplir con el requerimiento de 12 items por página,
+						debido a que la api no nos brinda una manera propia para paginar con un limite diferente a 20
+					*/}
 					{
-						miData.map((m) => (
+						miData.slice(0, 12).map((m) => (
 							<CartdData key={m.id} movie={m} />
 						))
 					}
